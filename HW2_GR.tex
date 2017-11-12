@@ -1,0 +1,852 @@
+
+% Default to the notebook output style
+
+    
+
+
+% Inherit from the specified cell style.
+
+
+
+
+    
+\documentclass[11pt]{article}
+
+    
+    
+    \usepackage[T1]{fontenc}
+    % Nicer default font than Computer Modern for most use cases
+    \usepackage{palatino}
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % We will generate all images so they have a width \maxwidth. This means
+    % that they will get their normal width if they fit onto the page, but
+    % are scaled down if they would overflow the margins.
+    \makeatletter
+    \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth
+    \else\Gin@nat@width\fi}
+    \makeatother
+    \let\Oldincludegraphics\includegraphics
+    % Set max figure width to be 80% of text width, for now hardcoded.
+    \renewcommand{\includegraphics}[1]{\Oldincludegraphics[width=.8\maxwidth]{#1}}
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionLabelFormat{nolabel}{}
+    \captionsetup{labelformat=nolabel}
+
+    \usepackage{adjustbox} % Used to constrain images to a maximum size 
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage[utf8x]{inputenc} % Allow utf-8 characters in the tex document
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range 
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    
+
+    
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatability definitions
+    \def\gt{>}
+    \def\lt{<}
+    % Document parameters
+    \title{HW2\_GR}
+    
+    
+    
+
+    % Pygments definitions
+    
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % Exact colors from NB
+    \definecolor{incolor}{rgb}{0.0, 0.0, 0.5}
+    \definecolor{outcolor}{rgb}{0.545, 0.0, 0.0}
+
+
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+    \begin{document}
+    
+    
+    \maketitle
+    
+    
+
+    
+    \subsubsection{Relatividad General y
+Cosmología}\label{relatividad-general-y-cosmologuxeda}
+
+\paragraph{Tarea \#2}\label{tarea-2}
+
+\subparagraph{Daniel Felipe Forero Sánchez -
+201415069}\label{daniel-felipe-forero-suxe1nchez---201415069}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}33}]:} \PY{k+kn}{from} \PY{n+nn}{sympy} \PY{k+kn}{import} \PY{o}{*}
+         \PY{n}{init\PYZus{}printing}\PY{p}{(}\PY{n}{use\PYZus{}latex}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{mathjax}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{k+kn}{from} \PY{n+nn}{sympy.diffgeom} \PY{k+kn}{import} \PY{o}{*}
+         \PY{k+kn}{from} \PY{n+nn}{sympy.tensor.array} \PY{k+kn}{import} \PY{n}{Array}
+         \PY{k+kn}{from} \PY{n+nn}{IPython.display} \PY{k+kn}{import} \PY{n}{display}
+\end{Verbatim}
+
+    \section{Punto 1:}\label{punto-1}
+
+Demuestre que
+\[C_{\nu\rho\sigma}=8\pi\frac{1}{2}\left[\nabla_\rho T_{\nu\sigma}-\nabla_\sigma T_{\nu\rho}-\frac{1}{3}(\nabla_\rho g_{\nu\sigma}T - \nabla_\sigma g_{\nu\rho}T)\right]\]
+
+\subsubsection{Demostración:}\label{demostraciuxf3n}
+
+Partimos de la definición del tensor de Cotton
+\(C_{\nu\rho\sigma} = \nabla_\rho P_{\nu\sigma}-\nabla_\sigma P_{\nu\rho}\),
+donde \(P\) es el tensor de Schouten y se define como
+\(P_{\nu\mu}=\frac{1}{n-2}\left(R_{\mu\nu}-\frac{1}{2(n-1)}g_{\mu\nu}R\right) =\frac{1}{2}\left(R_{\mu\nu}-\frac{1}{2(3)}g_{\mu\nu}R\right),\ n=4.\)
+
+Entonces,
+
+    \[C_{\nu\rho\sigma}= \frac{1}{2}\left(\nabla_\rho R_{\sigma\nu}-\frac{1}{6}\nabla_\rho g_{\sigma\nu}R\right) - \frac{1}{2}\left(\nabla_\sigma R_{\rho\nu}-\frac{1}{6}\nabla_\sigma g_{\rho\nu}R\right).\]
+
+    Ahora bien, tomamos la ecuación de campo
+\(G_{\mu\nu}=R_{\mu\nu}-\frac{1}{2}g_{\mu\nu}R = 8\pi T_{\mu\nu}\) y
+reemplazamos en la ecuación de arriba.
+
+\[C_{\nu\rho\sigma}= \frac{1}{2}\left(\nabla_\rho R_{\sigma\nu}-\frac{1}{6}\nabla_\rho g_{\sigma\nu}R-\frac{1}{2}\nabla_\rho g_{\sigma\nu}R+\frac{1}{2}\nabla_\rho g_{\sigma\nu}R\right) - \frac{1}{2}\left(\nabla_\sigma R_{\rho\nu}-\frac{1}{6}\nabla_\sigma g_{\rho\nu}R-\frac{1}{2}\nabla_\sigma g_{\rho\nu}R+\frac{1}{2}\nabla_\sigma g_{\rho\nu}R\right),\]
+
+que simplificando se convierte en
+
+    \[C_{\nu\rho\sigma} = \frac{1}{2}\left(8\pi\nabla_\rho T_{\sigma\nu}+\frac{1}{3}\nabla_\rho g_{\sigma\nu}R\right)-\frac{1}{2}\left(8\pi\nabla_\sigma T_{\rho\nu}+\frac{1}{3}\nabla_\sigma g_{\rho\nu}R\right).\]
+
+    Si trazamos la ecuación de campo, obtenemos que
+
+\[g^{\mu\nu}R_{\mu\nu} - \frac{1}{2}g^{\mu\nu}g_{\mu\nu}R = 8\pi g^{\mu\nu}T_{\mu\nu}\]
+
+\[R-2R = 8\pi T.\]
+
+Es decir, \[R=-8\pi T.\]
+
+    Si reemplazamos lo anterior en la expresión que teníamos para el tensor
+de Cotton, obtendremos que
+
+\[C_{\nu\rho\sigma} = \frac{1}{2}\left(8\pi\nabla_\rho T_{\sigma\nu}+\frac{1}{3}\nabla_\rho g_{\sigma\nu}(-8\pi T)\right)-\frac{1}{2}\left(8\pi\nabla_\sigma T_{\rho\nu}+\frac{1}{3}\nabla_\sigma g_{\rho\nu}(-8\pi T)\right)\]
+
+De forma que, reorganizando y factorizando, obtenemos que
+
+\[C_{\nu\rho\sigma}=8\pi\frac{1}{2}\left[\nabla_\rho T_{\nu\sigma}-\nabla_\sigma T_{\nu\rho}-\frac{1}{3}(\nabla_\rho g_{\nu\sigma}T - \nabla_\sigma g_{\nu\rho}T)\right].\]
+
+Que era lo que se quería demostrar.
+
+    \section{Punto 2:}\label{punto-2}
+
+Resuelva \(R_{\mu\nu}=0\) en simetría esférica:
+\[ds^2 = -f(r,t)dt^2 + g(r,t)dr^2 +  r^2d\theta^2+ r^2\sin^2\theta d\phi^2 \]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}32}]:} \PY{n}{M} \PY{o}{=} \PY{n}{Manifold}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{4}\PY{p}{)}
+         \PY{n}{P} \PY{o}{=} \PY{n}{Patch}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{M}\PY{p}{)}
+         \PY{n}{R3\PYZus{}CS} \PY{o}{=} \PY{n}{CoordSystem}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R3\PYZus{}CS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{P}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{theta}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{phi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+         \PY{n}{e\PYZus{}t}\PY{p}{,} \PY{n}{e\PYZus{}r}\PY{p}{,} \PY{n}{e\PYZus{}th}\PY{p}{,} \PY{n}{e\PYZus{}phi} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{base\PYZus{}vectors}\PY{p}{(}\PY{p}{)}
+         \PY{n}{dt}\PY{p}{,} \PY{n}{dr}\PY{p}{,} \PY{n}{dth}\PY{p}{,} \PY{n}{dphi} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{base\PYZus{}oneforms}\PY{p}{(}\PY{p}{)}
+         \PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{phi} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{coord\PYZus{}functions}\PY{p}{(}\PY{p}{)}
+         \PY{n}{f} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{f\PYZus{}met} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+         \PY{n}{g} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{g\PYZus{}met} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+         \PY{n}{TP}\PY{o}{=}\PY{n}{TensorProduct}
+         \PY{n}{R3\PYZus{}Metric} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{f\PYZus{}met}\PY{o}{*}\PY{n}{TP}\PY{p}{(}\PY{n}{dt}\PY{p}{,} \PY{n}{dt}\PY{p}{)} \PY{o}{+} \PY{n}{g\PYZus{}met}\PY{o}{*}\PY{n}{TP}\PY{p}{(}\PY{n}{dr}\PY{p}{,} \PY{n}{dr}\PY{p}{)}\PY{o}{+} \PYZbs{}
+         \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{TP}\PY{p}{(}\PY{n}{dth}\PY{p}{,} \PY{n}{dth}\PY{p}{)} \PY{o}{+} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{TP}\PY{p}{(}\PY{n}{dphi}\PY{p}{,} \PY{n}{dphi}\PY{p}{)}
+         \PY{n}{R3\PYZus{}Metric}
+         \PY{n}{R3\PYZus{}ch} \PY{o}{=} \PY{n}{metric\PYZus{}to\PYZus{}Christoffel\PYZus{}2nd}\PY{p}{(}\PY{n}{R3\PYZus{}Metric}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}R3\PYZus{}Ricci = metric\PYZus{}to\PYZus{}Ricci\PYZus{}components(R3\PYZus{}Metric)}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}32}]:}
+    
+    \[\frac{1}{2 g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{0}}{\left (m_{2850} \right )}^{2}}  f{\left (\boldsymbol{\mathrm{t}},\operatorname{_#_{0}}{\left (m_{2850} \right )} \right )} \right|_{\substack{ \operatorname{_#_{0}}{\left (m_{2850} \right )}=\boldsymbol{\mathrm{r}} }} - \frac{1}{2 g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{1}}{\left (m_{2850} \right )}^{2}}  g{\left (\operatorname{_#_{1}}{\left (m_{2850} \right )},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \operatorname{_#_{1}}{\left (m_{2850} \right )}=\boldsymbol{\mathrm{t}} }} + \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}}{g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} \boldsymbol{\mathrm{r}}} - \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}}{4 g^{2}{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{2}} g{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }} + \frac{\left. \frac{d}{d \xi_{1}} g{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }}^{2}}{4 g^{2}{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} + \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }}}{4 f{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{1}} g{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }} - \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}^{2}}{4 f{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}}\]
+
+    
+
+    Tuve algunos problemas con la librería de geometría diferencial de Sympy
+(con las funciones que calculan Ricci y el resto de la geometría) así
+que hubo que programarlas, por lo que los siguientes bloques se pueden
+ignorar.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}44}]:} \PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{phi} \PY{o}{=} \PY{n}{symbols}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t r theta phi}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{coords\PYZus{}vec} \PY{o}{=} \PY{p}{[}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{th}\PY{p}{,} \PY{n}{phi}\PY{p}{]}
+         \PY{n}{f} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{f\PYZus{}met} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+         \PY{n}{g} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+         \PY{n}{g\PYZus{}met} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{t}\PY{p}{,} \PY{n}{r}\PY{p}{)}
+         \PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{o}{=}\PY{n}{Matrix}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{o}{\PYZhy{}}\PY{n}{f\PYZus{}met}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{n}{g\PYZus{}met}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PYZbs{}
+                                  \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{*}\PY{n}{sin}\PY{p}{(}\PY{n}{th}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+         \PY{n}{display}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{,} \PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+         \PY{k}{def} \PY{n+nf}{Christ}\PY{p}{(}\PY{n}{m} \PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{,} \PY{n}{metric}\PY{o}{=}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{)}\PY{p}{:}
+             \PY{n}{inv\PYZus{}metric}\PY{o}{=}\PY{n}{metric}\PY{o}{.}\PY{n}{inv}\PY{p}{(}\PY{p}{)}
+             \PY{n}{term1}\PY{p}{,} \PY{n}{term2}\PY{p}{,} \PY{n}{term3}\PY{o}{=}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{term1}\PY{o}{+}\PY{o}{=}\PY{n}{inv\PYZus{}metric}\PY{p}{[}\PY{n}{m}\PY{p}{,} \PY{n}{k}\PY{p}{]}\PY{o}{*}\PY{n}{Derivative}\PY{p}{(}\PY{n}{metric}\PY{p}{[}\PY{n}{k}\PY{p}{,} \PY{n}{i}\PY{p}{]}\PY{p}{,} \PY{n}{coords\PYZus{}vec}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}
+                 \PY{n}{term2}\PY{o}{+}\PY{o}{=}\PY{n}{inv\PYZus{}metric}\PY{p}{[}\PY{n}{m}\PY{p}{,} \PY{n}{k}\PY{p}{]}\PY{o}{*}\PY{n}{Derivative}\PY{p}{(}\PY{n}{metric}\PY{p}{[}\PY{n}{k}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{coords\PYZus{}vec}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}
+                 \PY{n}{term3}\PY{o}{+}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{n}{inv\PYZus{}metric}\PY{p}{[}\PY{n}{m}\PY{p}{,} \PY{n}{k}\PY{p}{]}\PY{o}{*}\PY{n}{Derivative}\PY{p}{(}\PY{n}{metric}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{coords\PYZus{}vec}\PY{p}{[}\PY{n}{k}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}
+             \PY{k}{return} \PY{n}{nsimplify}\PY{p}{(}\PY{l+m+mf}{1.}\PY{o}{/}\PY{l+m+mi}{2}\PY{p}{)}\PY{o}{*}\PY{p}{(}\PY{n}{term1}\PY{o}{+}\PY{n}{term2}\PY{o}{+}\PY{n}{term3}\PY{p}{)}
+         \PY{c+c1}{\PYZsh{}Build whole Christoffel}
+         \PY{n}{manual\PYZus{}christ} \PY{o}{=} \PY{n}{MutableDenseNDimArray}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,} \PYZbs{}
+                          \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PYZbs{}
+                          \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{,}\PYZbs{}
+                                               \PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{manual\PYZus{}christ}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{o}{=}\PY{n}{Christ}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{j}\PY{p}{)}
+\end{Verbatim}
+
+    \[\left[\begin{matrix}- f{\left (t,r \right )} & 0 & 0 & 0\\0 & g{\left (t,r \right )} & 0 & 0\\0 & 0 & r^{2} & 0\\0 & 0 & 0 & r^{2} \sin^{2}{\left (\theta \right )}\end{matrix}\right]\]
+
+    
+    \[\left[\begin{matrix}- \frac{1}{f{\left (t,r \right )}} & 0 & 0 & 0\\0 & \frac{1}{g{\left (t,r \right )}} & 0 & 0\\0 & 0 & \frac{1}{r^{2}} & 0\\0 & 0 & 0 & \frac{1}{r^{2} \sin^{2}{\left (\theta \right )}}\end{matrix}\right]\]
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}49}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{j} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{k}{if}\PY{p}{(}\PY{n}{manual\PYZus{}christ}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                         \PY{n}{display}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Gamma\PYZca{}\PYZob{}}\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{\PYZcb{}\PYZus{}\PYZob{}}\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{ }\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{\PYZcb{}= }\PY{l+s+s1}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{j}\PY{p}{)}\PY{p}{,} \PY{n}{manual\PYZus{}christ}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{j}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    
+    \begin{verbatim}
+'Gamma^{0}_{0 0}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial t} f{\left (t,r \right )}}{2 f{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{0}_{0 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{2 f{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{0}_{1 0}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{2 f{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{0}_{1 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{2 f{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{0 0}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{2 g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{0 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{2 g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{1 0}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{2 g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{1 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{2 g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{2 2}= '
+    \end{verbatim}
+
+    
+    \[- \frac{r}{g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{1}_{3 3}= '
+    \end{verbatim}
+
+    
+    \[- \frac{r \sin^{2}{\left (\theta \right )}}{g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{2}_{1 2}= '
+    \end{verbatim}
+
+    
+    \[\frac{1}{r}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{2}_{2 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{1}{r}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{2}_{3 3}= '
+    \end{verbatim}
+
+    
+    \[- \sin{\left (\theta \right )} \cos{\left (\theta \right )}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{3}_{1 3}= '
+    \end{verbatim}
+
+    
+    \[\frac{1}{r}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{3}_{2 3}= '
+    \end{verbatim}
+
+    
+    \[\frac{\cos{\left (\theta \right )}}{\sin{\left (\theta \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{3}_{3 1}= '
+    \end{verbatim}
+
+    
+    \[\frac{1}{r}\]
+
+    
+    
+    \begin{verbatim}
+'Gamma^{3}_{3 2}= '
+    \end{verbatim}
+
+    
+    \[\frac{\cos{\left (\theta \right )}}{\sin{\left (\theta \right )}}\]
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}50}]:} \PY{k}{def} \PY{n+nf}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{,} \PY{n}{ch}\PY{o}{=}\PY{n}{R3\PYZus{}ch}\PY{p}{)}\PY{p}{:}
+             \PY{n}{sum1}\PY{o}{=}\PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{sum1}\PY{o}{+}\PY{o}{=}\PY{n}{Derivative}\PY{p}{(}\PY{n}{ch}\PY{p}{[}\PY{n}{l}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{p}{,} \PY{n}{coords\PYZus{}vec}\PY{p}{[}\PY{n}{l}\PY{p}{]}\PY{p}{)}
+             \PY{n}{sum2} \PY{o}{=} \PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{sum2}\PY{o}{+}\PY{o}{=}\PY{n}{ch}\PY{p}{[}\PY{n}{l}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{l}\PY{p}{]}
+             \PY{n}{sum2}\PY{o}{=}\PY{n}{Derivative}\PY{p}{(}\PY{n}{sum2}\PY{p}{,} \PY{n}{coords\PYZus{}vec}\PY{p}{[}\PY{n}{j}\PY{p}{]}\PY{p}{)}
+             \PY{n}{sum3}\PY{o}{=}\PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{sum3}\PY{o}{+}\PY{o}{=}\PY{n}{ch}\PY{p}{[}\PY{n}{m}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{j}\PY{p}{]}\PY{o}{*}\PY{n}{ch}\PY{p}{[}\PY{n}{l}\PY{p}{,} \PY{n}{l}\PY{p}{,} \PY{n}{m}\PY{p}{]}
+             \PY{n}{sum4}\PY{o}{=}\PY{l+m+mi}{0}
+             \PY{k}{for} \PY{n}{m} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{for} \PY{n}{l} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{sum4}\PY{o}{+}\PY{o}{=}\PY{o}{\PYZhy{}}\PY{n}{ch}\PY{p}{[}\PY{n}{m}\PY{p}{,} \PY{n}{i}\PY{p}{,} \PY{n}{l}\PY{p}{]}\PY{o}{*}\PY{n}{ch}\PY{p}{[}\PY{n}{l}\PY{p}{,} \PY{n}{j}\PY{p}{,} \PY{n}{m}\PY{p}{]}
+             \PY{k}{return} \PY{n}{simplify}\PY{p}{(}\PY{n}{sum1}\PY{o}{+}\PY{n}{sum2}\PY{o}{+}\PY{n}{sum3}\PY{o}{+}\PY{n}{sum4}\PY{p}{)}
+             
+         
+         \PY{n}{manual\PYZus{}Ricci} \PY{o}{=} \PY{n}{MutableDenseMatrix}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{,}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{]}\PY{p}{)}
+         \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{=}\PY{n}{simplify}\PY{p}{(}\PY{n}{Ricci}\PY{p}{(}\PY{n}{i}\PY{p}{,} \PY{n}{k}\PY{p}{,} \PY{n}{manual\PYZus{}christ}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    Procedemos, ahora si, a ver las componentes del tensor de Ricci. Tomemos
+aquellas que son distintas a cero.
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}59}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+             \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                 \PY{k}{if}\PY{p}{(}\PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{!=}\PY{l+m+mi}{0}\PY{p}{)}\PY{p}{:}
+                     \PY{n}{display}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R\PYZus{}\PYZob{}}\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{ }\PY{l+s+si}{\PYZpc{}i}\PY{l+s+s1}{\PYZcb{}}\PY{l+s+s1}{\PYZsq{}}\PY{o}{\PYZpc{}}\PY{p}{(}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{)}\PY{p}{,} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    
+    \begin{verbatim}
+'R_{0 0}'
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial^{2}}{\partial r^{2}}  f{\left (t,r \right )}}{2 g{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  g{\left (t,r \right )}}{2 g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{4 g^{2}{\left (t,r \right )}} \frac{\partial}{\partial r} g{\left (t,r \right )} - \frac{3 \left(\frac{\partial}{\partial t} g{\left (t,r \right )}\right)^{2}}{4 g^{2}{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  f{\left (t,r \right )}}{f{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial r} f{\left (t,r \right )}\right)^{2}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} + \frac{\frac{\partial}{\partial t} f{\left (t,r \right )} \frac{\partial}{\partial t} g{\left (t,r \right )}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial t} f{\left (t,r \right )}\right)^{2}}{f^{2}{\left (t,r \right )}} + \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{r g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'R_{0 1}'
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial^{2}}{\partial r\partial t}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{g^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial^{2}}{\partial r\partial t}  f{\left (t,r \right )}}{f{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{f^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} f{\left (t,r \right )} + \frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{r g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'R_{1 0}'
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial^{2}}{\partial r\partial t}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{g^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial^{2}}{\partial r\partial t}  f{\left (t,r \right )}}{f{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{f^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} f{\left (t,r \right )} + \frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{r g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'R_{1 1}'
+    \end{verbatim}
+
+    
+    \[\frac{\frac{\partial^{2}}{\partial r^{2}}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial r} g{\left (t,r \right )}\right)^{2}}{g^{2}{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial r^{2}}  f{\left (t,r \right )}}{2 f{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  g{\left (t,r \right )}}{2 f{\left (t,r \right )}} + \frac{\frac{\partial}{\partial r} f{\left (t,r \right )} \frac{\partial}{\partial r} g{\left (t,r \right )}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial t} g{\left (t,r \right )}\right)^{2}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{3 \left(\frac{\partial}{\partial r} f{\left (t,r \right )}\right)^{2}}{4 f^{2}{\left (t,r \right )}} - \frac{\frac{\partial}{\partial t} f{\left (t,r \right )}}{4 f^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{r g{\left (t,r \right )}} - \frac{4}{r^{2}}\]
+
+    
+    
+    \begin{verbatim}
+'R_{2 2}'
+    \end{verbatim}
+
+    
+    \[\frac{r \frac{\partial}{\partial r} g{\left (t,r \right )}}{2 g^{2}{\left (t,r \right )}} - \frac{r \frac{\partial}{\partial r} f{\left (t,r \right )}}{2 f{\left (t,r \right )} g{\left (t,r \right )}} - 1 - \frac{2}{\tan^{2}{\left (\theta \right )}} - \frac{1}{g{\left (t,r \right )}}\]
+
+    
+    
+    \begin{verbatim}
+'R_{3 3}'
+    \end{verbatim}
+
+    
+    \[\frac{\sin^{2}{\left (\theta \right )}}{f{\left (t,r \right )} g^{2}{\left (t,r \right )}} \left(\frac{r}{2} f{\left (t,r \right )} \frac{\partial}{\partial r} g{\left (t,r \right )} - \frac{r}{2} g{\left (t,r \right )} \frac{\partial}{\partial r} f{\left (t,r \right )} + f{\left (t,r \right )} g^{2}{\left (t,r \right )} - f{\left (t,r \right )} g{\left (t,r \right )}\right)\]
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}60}]:} \PY{n}{display}\PY{p}{(}\PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+         \PY{n}{pprint}\PY{p}{(}\PY{n}{R3\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{]}\PY{p}{)}
+\end{Verbatim}
+
+    \[\frac{\frac{\partial^{2}}{\partial r\partial t}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{g^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial^{2}}{\partial r\partial t}  f{\left (t,r \right )}}{f{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{f^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} f{\left (t,r \right )} + \frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{r g{\left (t,r \right )}}\]
+
+    
+    \begin{Verbatim}[commandchars=\\\{\}]
+⎛ d           ⎞│    
+⎜───(g(ξ₁, r))⎟│    
+⎝dξ₁          ⎠│ξ₁=t
+────────────────────
+     g(t, r)⋅r      
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}61}]:} \PY{n}{R3\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}61}]:}
+    
+    \[\frac{1}{2 g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{0}}{\left (m_{2850} \right )}^{2}}  f{\left (\boldsymbol{\mathrm{t}},\operatorname{_#_{0}}{\left (m_{2850} \right )} \right )} \right|_{\substack{ \operatorname{_#_{0}}{\left (m_{2850} \right )}=\boldsymbol{\mathrm{r}} }} - \frac{1}{2 g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{1}}{\left (m_{2850} \right )}^{2}}  g{\left (\operatorname{_#_{1}}{\left (m_{2850} \right )},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \operatorname{_#_{1}}{\left (m_{2850} \right )}=\boldsymbol{\mathrm{t}} }} + \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}}{g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} \boldsymbol{\mathrm{r}}} - \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}}{4 g^{2}{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{2}} g{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }} + \frac{\left. \frac{d}{d \xi_{1}} g{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }}^{2}}{4 g^{2}{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} + \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }}}{4 f{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{1}} g{\left (\xi_{1},\boldsymbol{\mathrm{r}} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{t}} }} - \frac{\left. \frac{d}{d \xi_{2}} f{\left (\boldsymbol{\mathrm{t}},\xi_{2} \right )} \right|_{\substack{ \xi_{2}=\boldsymbol{\mathrm{r}} }}^{2}}{4 f{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{t}},\boldsymbol{\mathrm{r}} \right )}}\]
+
+    
+
+    Debemos entonces exigir que
+\[\left(\frac{1}{g}\partial_r\partial_tg+\frac{1}{f}\partial_r\partial_tf\right)-\left(\frac{1}{g^2}\partial_rg\partial_tg+\frac{1}{f^2}\partial_rf\partial_tf\right) + \frac{1}{2rg}\partial_tg=0\]
+
+    Es válido entonces, tomar
+\[\frac{1}{g}\partial_r\partial_tg+\frac{1}{f}\partial_r\partial_tf=0,\]
+\[\frac{1}{g^2}\partial_rg\partial_tg+\frac{1}{f^2}\partial_rf\partial_tf=0,\]
+\[\frac{1}{2rg}\partial_tg=0.\] Estas relaciones se satisfacen si
+\(\partial_t(f,g)=(0,0)\).
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}314}]:} \PY{n}{f} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{f\PYZus{}r}\PY{o}{=}\PY{n}{f}\PY{p}{(}\PY{n}{r}\PY{p}{)}
+          \PY{n}{g} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{g\PYZus{}r}\PY{o}{=}\PY{n}{g}\PY{p}{(}\PY{n}{r}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}7}]:} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}7}]:}
+    
+    \[\frac{\frac{\partial^{2}}{\partial r^{2}}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial r} g{\left (t,r \right )}\right)^{2}}{g^{2}{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial r^{2}}  f{\left (t,r \right )}}{2 f{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  g{\left (t,r \right )}}{2 f{\left (t,r \right )}} + \frac{\frac{\partial}{\partial r} f{\left (t,r \right )} \frac{\partial}{\partial r} g{\left (t,r \right )}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial t} g{\left (t,r \right )}\right)^{2}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{3 \left(\frac{\partial}{\partial r} f{\left (t,r \right )}\right)^{2}}{4 f^{2}{\left (t,r \right )}} - \frac{\frac{\partial}{\partial t} f{\left (t,r \right )}}{4 f^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{2 r g{\left (t,r \right )}} - \frac{2}{r^{2}}\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}8}]:} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{,}\PY{l+m+mi}{2}\PY{p}{]}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}8}]:}
+    
+    \[\frac{r}{2 f{\left (t,r \right )} g^{2}{\left (t,r \right )}} \left(f{\left (t,r \right )} \frac{\partial}{\partial r} g{\left (t,r \right )} - g{\left (t,r \right )} \frac{\partial}{\partial r} f{\left (t,r \right )}\right)\]
+
+    
+
+    En este caso, podemos exigir que \[f\partial_rg-g\partial_rf=0,\]es
+decir, \[f\partial_rg=g\partial_rf\]
+
+    \[\frac{\partial_rg}{g}=\frac{\partial_rf}{f}\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}9}]:} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}9}]:}
+    
+    \[\frac{\frac{\partial^{2}}{\partial r^{2}}  f{\left (t,r \right )}}{2 g{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  g{\left (t,r \right )}}{2 g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{4 g^{2}{\left (t,r \right )}} \frac{\partial}{\partial r} g{\left (t,r \right )} - \frac{3 \left(\frac{\partial}{\partial t} g{\left (t,r \right )}\right)^{2}}{4 g^{2}{\left (t,r \right )}} + \frac{\frac{\partial^{2}}{\partial t^{2}}  f{\left (t,r \right )}}{f{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial r} f{\left (t,r \right )}\right)^{2}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} + \frac{\frac{\partial}{\partial t} f{\left (t,r \right )} \frac{\partial}{\partial t} g{\left (t,r \right )}}{4 f{\left (t,r \right )} g{\left (t,r \right )}} - \frac{\left(\frac{\partial}{\partial t} f{\left (t,r \right )}\right)^{2}}{f^{2}{\left (t,r \right )}} + \frac{\frac{\partial}{\partial r} f{\left (t,r \right )}}{2 r g{\left (t,r \right )}}\]
+
+    
+
+    Acá encontramos muchos términos que, de la primera componente evaluada,
+sabemos que son cero (\(\sim \partial_t(f,g)\)).
+
+Tenemos entonces que
+\[\frac{\partial_r^2f}{2g}-\frac{\partial_rf\partial_rg}{4g^2}-\frac{(\partial_rf)^2}{4fg}+\frac{\partial_rf}{2rg}=0\]
+
+    \[\frac{\partial_r^2f}{2g}-\frac{\partial_rf\partial_rf}{4gf}-\frac{(\partial_rf)^2}{4fg}+\frac{\partial_rf}{2rg}=0\]
+
+    \[\partial_r^2f-\frac{(\partial_rf)^2}{f}+\frac{\partial_rf}{r}=0\]
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}318}]:} \PY{k+kn}{from} \PY{n+nn}{sympy} \PY{k+kn}{import} \PY{n}{Function}\PY{p}{,} \PY{n}{dsolve}\PY{p}{,} \PY{n}{Eq}
+          \PY{n}{eq}\PY{o}{=}\PY{n}{f\PYZus{}r}\PY{o}{*}\PY{n}{diff}\PY{p}{(}\PY{n}{f\PYZus{}r}\PY{p}{,} \PY{n}{r}\PY{p}{,} \PY{n}{r}\PY{p}{)}\PY{o}{\PYZhy{}}\PY{p}{(}\PY{n}{diff}\PY{p}{(}\PY{n}{f\PYZus{}r}\PY{p}{,} \PY{n}{r}\PY{p}{)}\PY{p}{)}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2}\PY{o}{+}\PY{n}{f\PYZus{}r}\PY{o}{*}\PY{n}{diff}\PY{p}{(}\PY{n}{f\PYZus{}r}\PY{p}{,} \PY{n}{r}\PY{p}{)}\PY{o}{/}\PY{n}{r}
+          \PY{n}{eq}
+          \PY{n}{f\PYZus{}res}\PY{o}{=}\PY{n}{simplify}\PY{p}{(}\PY{n}{dsolve}\PY{p}{(}\PY{n}{eq}\PY{p}{)}\PY{p}{)}
+          \PY{n}{f\PYZus{}res}\PY{o}{.}\PY{n}{rhs}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}318}]:}
+    
+    \[C_{1} e^{C_{2} \log{\left (r \right )}}\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}319}]:} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{f\PYZus{}met}\PY{p}{,} \PY{n}{f\PYZus{}res}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}319}]:}
+    
+    \[\frac{\frac{\partial^{2}}{\partial r\partial t}  g{\left (t,r \right )}}{g{\left (t,r \right )}} - \frac{\frac{\partial}{\partial r} g{\left (t,r \right )}}{g^{2}{\left (t,r \right )}} \frac{\partial}{\partial t} g{\left (t,r \right )} + \frac{\frac{\partial}{\partial t} g{\left (t,r \right )}}{2 r g{\left (t,r \right )}}\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}320}]:} \PY{n}{g\PYZus{}res}\PY{o}{=}\PY{n}{dsolve}\PY{p}{(} \PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{f\PYZus{}met}\PY{p}{,}\PY{n}{f\PYZus{}r}\PY{p}{)}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{g\PYZus{}met}\PY{p}{,} \PY{n}{g\PYZus{}r}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}\PY{p}{,} \PY{n}{g\PYZus{}r}\PY{p}{)}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{f\PYZus{}r}\PY{p}{,} \PY{n}{f\PYZus{}res}\PY{o}{.}\PY{n}{rhs}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}321}]:} \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+              \PY{k}{for} \PY{n}{k} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n+nb}{len}\PY{p}{(}\PY{n}{R3\PYZus{}Metric\PYZus{}matrix}\PY{p}{[}\PY{p}{:}\PY{p}{,}\PY{l+m+mi}{0}\PY{p}{]}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+                  \PY{k}{print} \PY{n}{i}\PY{p}{,} \PY{n}{k}\PY{p}{,}\PY{n}{simplify}\PY{p}{(}\PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{n}{i}\PY{p}{,}\PY{n}{k}\PY{p}{]}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{f\PYZus{}met}\PY{p}{,}\PY{n}{f\PYZus{}res}\PY{o}{.}\PY{n}{rhs}\PY{p}{)}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{g\PYZus{}met}\PY{p}{,} \PY{n}{g\PYZus{}res}\PY{o}{.}\PY{n}{rhs}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+0 0 0
+0 1 0
+0 2 0
+1 0 0
+1 1 -(C2 + 2)/r**2
+1 2 0
+2 0 0
+2 1 0
+2 2 0
+
+    \end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}322}]:} \PY{n}{g\PYZus{}res}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}322}]:}
+    
+    \[g{\left (r \right )} = C_{1}^{2} C_{2}^{2} e^{C_{2} \log{\left (r \right )}}\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}323}]:} \PY{n}{f\PYZus{}res}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}323}]:}
+    
+    \[f{\left (r \right )} = C_{1} e^{C_{2} \log{\left (r \right )}}\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}324}]:} \PY{n}{simplify}\PY{p}{(}\PY{n}{manual\PYZus{}Ricci}\PY{p}{[}\PY{l+m+mi}{1}\PY{p}{,}\PY{l+m+mi}{1}\PY{p}{]}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{f\PYZus{}met}\PY{p}{,}\PY{n}{f\PYZus{}res}\PY{o}{.}\PY{n}{rhs}\PY{p}{)}\PY{o}{.}\PY{n}{subs}\PY{p}{(}\PY{n}{g\PYZus{}met}\PY{p}{,} \PY{n}{g\PYZus{}res}\PY{o}{.}\PY{n}{rhs}\PY{p}{)}\PY{o}{.}\PY{n}{doit}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}324}]:}
+    
+    \[- \frac{1}{r^{2}} \left(C_{2} + 2\right)\]
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}331}]:} \PY{n}{M} \PY{o}{=} \PY{n}{Manifold}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{M}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}
+          \PY{n}{P} \PY{o}{=} \PY{n}{Patch}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{P}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{M}\PY{p}{)}
+          \PY{n}{R3\PYZus{}CS} \PY{o}{=} \PY{n}{CoordSystem}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{R3\PYZus{}CS}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{P}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{t}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{r}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{Omega}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+          \PY{n}{e\PYZus{}t}\PY{p}{,} \PY{n}{e\PYZus{}r}\PY{p}{,} \PY{n}{e\PYZus{}O} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{base\PYZus{}vectors}\PY{p}{(}\PY{p}{)}
+          \PY{n}{dt}\PY{p}{,} \PY{n}{dr}\PY{p}{,} \PY{n}{dO} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{base\PYZus{}oneforms}\PY{p}{(}\PY{p}{)}
+          \PY{n}{t\PYZus{}m}\PY{p}{,} \PY{n}{r\PYZus{}m}\PY{p}{,} \PY{n}{O\PYZus{}m} \PY{o}{=} \PY{n}{R3\PYZus{}CS}\PY{o}{.}\PY{n}{coord\PYZus{}functions}\PY{p}{(}\PY{p}{)}
+          \PY{n}{f} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{f}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{f\PYZus{}met} \PY{o}{=} \PY{n}{f}\PY{p}{(}\PY{n}{r\PYZus{}m}\PY{p}{)}
+          \PY{n}{g} \PY{o}{=} \PY{n}{Function}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}
+          \PY{n}{g\PYZus{}met} \PY{o}{=} \PY{n}{g}\PY{p}{(}\PY{n}{r\PYZus{}m}\PY{p}{)}
+          \PY{n}{TP}\PY{o}{=}\PY{n}{TensorProduct}
+          \PY{n}{R3\PYZus{}Metric} \PY{o}{=} \PY{o}{\PYZhy{}}\PY{n}{f\PYZus{}met}\PY{o}{*}\PY{n}{TP}\PY{p}{(}\PY{n}{dt}\PY{p}{,} \PY{n}{dt}\PY{p}{)} \PY{o}{+} \PY{n}{g\PYZus{}met}\PY{o}{*}\PY{n}{TP}\PY{p}{(}\PY{n}{dr}\PY{p}{,} \PY{n}{dr}\PY{p}{)}\PY{o}{+} \PY{n}{r}\PY{o}{*}\PY{o}{*}\PY{l+m+mi}{2} \PY{o}{*} \PY{n}{TP}\PY{p}{(}\PY{n}{dO}\PY{p}{,} \PY{n}{dO}\PY{p}{)}
+          \PY{n}{R3\PYZus{}Metric}
+          \PY{n}{R3\PYZus{}ch}\PY{o}{=}\PY{n}{metric\PYZus{}to\PYZus{}Christoffel\PYZus{}2nd}\PY{p}{(}\PY{n}{R3\PYZus{}Metric}\PY{p}{)}
+          \PY{n}{R3\PYZus{}ch}
+          \PY{n}{R3\PYZus{}Ricci} \PY{o}{=} \PY{n}{simplify}\PY{p}{(}\PY{n}{metric\PYZus{}to\PYZus{}Ricci\PYZus{}components}\PY{p}{(}\PY{n}{R3\PYZus{}Metric}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor}332}]:} \PY{n}{R3\PYZus{}Ricci}
+\end{Verbatim}
+\texttt{\color{outcolor}Out[{\color{outcolor}332}]:}
+    
+    $$\left[\begin{matrix}\frac{1}{2 g{\left (\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{0}}{\left (m_{32054} \right )}^{2}}  f{\left (\operatorname{_#_{0}}{\left (m_{32054} \right )} \right )} \right|_{\substack{ \operatorname{_#_{0}}{\left (m_{32054} \right )}=\boldsymbol{\mathrm{r}} }} - \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }}}{4 g^{2}{\left (\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{1}} g{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }} - \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }}^{2}}{4 f{\left (\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{r}} \right )}} & 0 & 0\\0 & - \frac{1}{2 f{\left (\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d^{2}}{d \operatorname{_#_{0}}{\left (m_{32054} \right )}^{2}}  f{\left (\operatorname{_#_{0}}{\left (m_{32054} \right )} \right )} \right|_{\substack{ \operatorname{_#_{0}}{\left (m_{32054} \right )}=\boldsymbol{\mathrm{r}} }} + \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }}}{4 f{\left (\boldsymbol{\mathrm{r}} \right )} g{\left (\boldsymbol{\mathrm{r}} \right )}} \left. \frac{d}{d \xi_{1}} g{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }} + \frac{\left. \frac{d}{d \xi_{1}} f{\left (\xi_{1} \right )} \right|_{\substack{ \xi_{1}=\boldsymbol{\mathrm{r}} }}^{2}}{4 f^{2}{\left (\boldsymbol{\mathrm{r}} \right )}} & 0\\0 & 0 & 0\end{matrix}\right]$$
+
+    
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+{\color{incolor}In [{\color{incolor} }]:} 
+\end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+    \end{document}
